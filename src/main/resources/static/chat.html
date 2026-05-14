@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/chat.css">
+<title>チャット</title>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+        チャット
+    </div>
+
+    <div id="chatMessages" class="chat-messages">
+
+    </div>
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            id="message"
+            placeholder="メッセージを入力"
+            oninput="checkInput()"
+            onkeydown="handleEnter(event)"
+        >
+
+        <button
+            id="sendButton"
+            onclick="sendMessage()"
+            disabled
+        >
+            送信
+        </button>
+
+    </div>
+
+</div>
+
+<input type="hidden" id="roomId" value="1">
+<input type="hidden" id="teamId" value="1">
+<input type="hidden" id="playerId" value="1">
+
+
+<script>
+
+const playerName =
+    sessionStorage.getItem("playerName");
+
+const playerId =
+    sessionStorage.getItem("playerId");
+
+async function sendMessage() {
+
+    
+    const input = document.getElementById("message");
+
+
+    if(input.value.trim() === ""){
+        return;
+    }
+
+    await fetch("/chat", {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            message:input.value,
+            roomId:document.getElementById("roomId").value,
+            teamId:document.getElementById("teamId").value,
+            playerId: playerId,
+            playerName: playerName
+        })
+    });
+
+    input.value = "";
+
+    checkInput();
+
+    loadMessages();
+}
+
+async function loadMessages(){
+
+    const response = await fetch("/chat");
+
+    const messages = await response.json();
+
+    const chat = document.getElementById("chatMessages");
+
+    chat.innerHTML = "";
+
+    messages.forEach(msg => {
+
+        const div = document.createElement("div");
+
+        div.className = "message";
+
+        // div.textContent = msg.message;
+        // div.innerHTML = `
+        //     <div>Room : ${msg.roomId}</div>
+        //     <div>Team : ${msg.teamId}</div>
+        //     <div>Player : ${msg.playerName}</div>
+        //     <hr>
+        //     <div>${msg.message}</div>
+        // `;
+        div.innerHTML = `
+            <div class="player-name">
+                ${msg.playerName}
+            </div>
+
+            <div class="message-text">
+                ${msg.message}
+            </div>
+        `;
+
+        chat.appendChild(div);
+    });
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function checkInput(){
+
+    const input = document.getElementById("message");
+
+    const button = document.getElementById("sendButton");
+
+    button.disabled = input.value.trim() === "";
+}
+
+function handleEnter(event){
+
+    if(event.key === "Enter"){
+
+        event.preventDefault();
+
+        sendMessage();
+    }
+}
+
+setInterval(loadMessages,1000);
+
+loadMessages();
+
+</script>
+
+</body>
+</html>

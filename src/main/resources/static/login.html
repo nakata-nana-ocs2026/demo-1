@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/login.css">
+<title>ログイン</title>
+
+<style>
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#f0f2f5;
+    font-family:sans-serif;
+}
+
+.login-box{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+
+    width:300px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:15px;
+}
+
+input{
+
+    padding:10px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+}
+
+button{
+
+    padding:10px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4a76a8;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <h2>プレイヤー登録</h2>
+
+    <input
+        type="text"
+        id="playerName"
+        placeholder="プレイヤー名"
+    >
+
+    <button onclick="startChat()">
+        開始
+    </button>
+
+</div>
+
+<script>
+
+function startChat(){
+
+    const playerName =
+        document.getElementById("playerName").value;
+
+    if(playerName.trim() === ""){
+        alert("名前を入力してください");
+        return;
+    }
+
+    // ランダムID生成
+    const playerId =
+        Math.floor(Math.random() * 1000000);
+
+    // 保存
+    sessionStorage.setItem("playerName", playerName);
+
+    sessionStorage.setItem("playerId", playerId);
+
+    // chatへ移動
+    window.location.href = "/chat.html";
+}
+
+</script>
+
+</body>
+</html>
