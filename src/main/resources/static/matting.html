@@ -125,6 +125,9 @@ stompClient.connect({}, function () {
 
 function joinRoom() {
 
+    const playerName =
+        document.getElementById("playerName").value;
+        
     const data = {
 
         roomName:
@@ -148,6 +151,9 @@ function joinRoom() {
     setTimeout(() => {
         window.location.href = "battle.html";
     }, 300);
+    sessionStorage.setItem("playerName", playerName);
+
+    sessionStorage.setItem("playerId", playerId);
 }
 
 </script>
