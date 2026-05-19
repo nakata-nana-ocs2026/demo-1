@@ -75,7 +75,7 @@ function submitAnswer() {
         }
     });
 
-    window.location.href='login.html'
+    
 }
 
 function renderHistory() {
