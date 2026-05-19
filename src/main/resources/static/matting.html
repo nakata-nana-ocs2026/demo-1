@@ -92,7 +92,7 @@ function joinRoom() {
 
     <div class="input-group">
         <label>プレイヤー名</label>
-        <input id="username" placeholder="プレイヤー名を入力してください">
+        <input id="playerName" placeholder="プレイヤー名を入力してください">
     </div>
 
     <button onclick="joinRoom()">参加</button>
@@ -133,8 +133,8 @@ function joinRoom() {
         teamName:
             document.getElementById('teamName').value,
 
-        username:
-            document.getElementById('username').value
+        playerName:
+            document.getElementById('playerName').value
     };
 
     console.log("送信:", data);

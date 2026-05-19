@@ -73,6 +73,8 @@ function submitAnswer() {
                 `✅ ${data.hit} Hit`;
         }
     });
+
+    window.location.href='chat.html'
 }
 
 function renderHistory() {
