@@ -88,3 +88,13 @@ function renderHistory() {
 function nextGame() {
     location.reload();
 }
+
+function loadChat() {
+    fetch('chat.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('chat-container').innerHTML = data;
+        });
+}
+
+loadChat();
