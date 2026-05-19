@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -54,6 +54,100 @@ function joinRoom() {
     stompClient.send('/app/join', {}, JSON.stringify(data));
 
     window.location.href = "battle.html";
+}
+
+</script>
+
+</body>
+</html> -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Room Team WebSocket</title>
+    <link rel="stylesheet" href="/css/matting.css">
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>ルーム参加</h2>
+
+    <div class="input-group">
+        <label>ルーム名</label>
+        <input id="roomName" placeholder="ルーム名を入力してください">
+    </div>
+
+    <div class="input-group">
+        <label>チーム名</label>
+        <input id="teamName" placeholder="チーム名を入力してください">
+    </div>
+
+    <div class="input-group">
+        <label>プレイヤー名</label>
+        <input id="username" placeholder="プレイヤー名を入力してください">
+    </div>
+
+    <button onclick="joinRoom()">参加</button>
+
+    <pre id="result"></pre>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+
+<script>
+
+const socket = new SockJS('/ws');
+const stompClient = Stomp.over(socket);
+
+stompClient.connect({}, function () {
+
+    console.log("WebSocket Connected");
+
+    stompClient.subscribe('/topic/rooms', function (message) {
+
+        console.log("受信:", message.body);
+
+        document.getElementById('result').innerText =
+            message.body;
+    });
+
+});
+
+function joinRoom() {
+
+    const data = {
+
+        roomName:
+            document.getElementById('roomName').value,
+
+        teamName:
+            document.getElementById('teamName').value,
+
+        username:
+            document.getElementById('username').value
+    };
+
+    console.log("送信:", data);
+
+    stompClient.send(
+        '/app/join',
+        {},
+        JSON.stringify(data)
+    );
+
+    setTimeout(() => {
+        window.location.href = "battle.html";
+    }, 300);
 }
 
 </script>
