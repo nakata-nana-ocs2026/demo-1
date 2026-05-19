@@ -74,8 +74,6 @@ function submitAnswer() {
                 `✅ ${data.hit} Hit`;
         }
     });
-
-    window.location.href='login.html'
 }
 
 function renderHistory() {
