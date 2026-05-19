@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>天気2 Hit&Blow</title>
+    <title>天気 Hit&Blow</title>
     <link rel="stylesheet" href="/css/battle.css">
     <link rel="stylesheet" href="/css/chat.css">
 </head>
@@ -10,30 +10,33 @@
 
 <div class="game-layout">
 
+    <!-- メインゲーム -->
     <div class="container">
 
-        <h1>🌤 天気 Hit&Blow
-            
-        </h1>
+        <h1>🌤 天気 Hit&Blow</h1>
 
         <div class="weather-box" id="weather">
             読み込み中...
         </div>
 
+        <!-- 地方 -->
         <div class="select-group">
-            <label>地方</label>
+            <label for="region">地方</label>
             <select id="region">
-                <option>北海道</option>
-                <option>東北</option>
-                <option>関東</option>
-                <option>中部</option>
-                <option>関西</option>
-                <option>九州</option>
+                <option value="北海道">北海道</option>
+                <option value="東北">東北</option>
+                <option value="関東">関東</option>
+                <option value="中部">中部</option>
+                <option value="関西">関西</option>
+                <option value="中国">中国</option>
+                <option value="四国">四国</option>
+                <option value="九州">九州</option>
             </select>
         </div>
 
+        <!-- 月 -->
         <div class="select-group">
-            <label>月</label>
+            <label for="month">月</label>
             <select id="month">
                 <option value="3">3月</option>
                 <option value="4">4月</option>
@@ -42,13 +45,14 @@
             </select>
         </div>
 
+        <!-- 天気タイプ -->
         <div class="select-group">
-            <label>天気タイプ</label>
+            <label for="type">天気タイプ</label>
             <select id="type">
-                <option>晴れ型</option>
-                <option>雨型</option>
-                <option>変動型</option>
-                <option>荒天型</option>
+                <option value="雪解け型">雪解け型</option>
+                <option value="春型">春型</option>
+                <option value="台風型">台風型</option>
+                <option value="秋雨型">秋雨型</option>
             </select>
         </div>
 
@@ -58,15 +62,12 @@
 
     </div>
 
+    <!-- サイドパネル -->
     <div class="side-panel">
 
         <div id="result">結果待ち</div>
 
-        <div id="count">挑戦回数: 0
-                    
-        </div>
-
-
+        <div id="count">挑戦回数: 0</div>
 
         <div id="history"></div>
 
@@ -75,6 +76,7 @@
         </button>
     </div>
 
+    <!-- チャット -->
     <div id="chat-container"></div>
 
 </div>

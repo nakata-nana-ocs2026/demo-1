@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Answer;
+import com.example.demo.model.JudgeResult;
+import com.example.demo.model.WeatherData;
 import com.example.demo.service.MatchService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +16,17 @@ public class MatchController {
         this.service = service;
     }
 
-    @PostMapping("/join")
-    public String join(@RequestParam String playerId) {
-        return service.join(playerId);
+    // ゲーム開始
+    @GetMapping("/start")
+    public WeatherData startGame() {
+        return service.startGame();
     }
 
-    @GetMapping("/status")
-    public String status(@RequestParam String playerId) {
-        return service.getGameId(playerId);
+    // 回答判定
+    @PostMapping("/check")
+    public JudgeResult checkAnswer(
+            @RequestBody Answer answer
+    ) {
+        return service.checkAnswer(answer);
     }
 }

@@ -1,9 +1,11 @@
 let count = 0;
 let history = [];
 
-fetch('/game/start')
+// ---------------- ゲーム開始 ----------------
+fetch('/match/start')
     .then(res => res.json())
     .then(data => {
+        console.log(data);
 
         document.getElementById('weather').innerHTML = `
         <div class="weather-grid">
@@ -37,8 +39,7 @@ fetch('/game/start')
 function submitAnswer() {
 
     count++;
-    document.getElementById('count').innerHTML =
-        `挑戦回数: ${count}`;
+    document.getElementById('count').innerHTML = `挑戦回数: ${count}`;
 
     const answer = {
         region: document.getElementById('region').value,
@@ -46,19 +47,18 @@ function submitAnswer() {
         weatherType: document.getElementById('type').value
     };
 
-    fetch('/game/answer', {
+    fetch('/match/check', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(answer)
     })
     .then(res => res.json())
     .then(data => {
 
         history.unshift(
-            `${count}回目: `
-            + `${answer.region} / `
-            + `${answer.month}月 / `
-            + `${answer.weatherType} → ${data.hit} Hit`
+            `${count}回目: ${answer.region} / ${answer.month}月 / ${answer.weatherType} → ${data.hit} Hit`
         );
 
         renderHistory();
@@ -67,8 +67,7 @@ function submitAnswer() {
             document.getElementById('result').innerHTML =
                 `🎉 CLEAR!! (${count}回)`;
 
-            document.getElementById('nextButton').style.display =
-                'block';
+            document.getElementById('nextButton').style.display = 'block';
         } else {
             document.getElementById('result').innerHTML =
                 `✅ ${data.hit} Hit`;
@@ -87,90 +86,67 @@ function nextGame() {
     location.reload();
 }
 
-// ---------------chat---------------------
+
+// ---------------- chat ----------------
 
 function loadChat() {
     fetch('chat.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('chat-container').innerHTML = data;
+            loadMessages(); // chat読み込み後に実行
         });
 }
 
 loadChat();
 
-const playerName =
-    sessionStorage.getItem("playerName");
-
-const playerId =
-    sessionStorage.getItem("playerId");
+const playerName = sessionStorage.getItem("playerName") || "guest";
+const playerId = sessionStorage.getItem("playerId") || "guest";
 
 async function sendMessage() {
 
-    
     const input = document.getElementById("message");
+    if (!input || input.value.trim() === "") return;
 
-
-    if(input.value.trim() === ""){
-        return;
-    }
+    const roomId = document.getElementById("roomId")?.value || "1";
+    const teamId = document.getElementById("teamId")?.value || "1";
 
     await fetch("/chat", {
-
-        method:"POST",
-
-        headers:{
-            "Content-Type":"application/json"
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-
-        body:JSON.stringify({
-            message:input.value,
-            roomId:document.getElementById("roomId").value,
-            teamId:document.getElementById("teamId").value,
+        body: JSON.stringify({
+            message: input.value,
+            roomId: roomId,
+            teamId: teamId,
             playerId: playerId,
             playerName: playerName
         })
     });
 
     input.value = "";
-
     checkInput();
-
     loadMessages();
 }
 
-async function loadMessages(){
-
-    const response = await fetch("/chat");
-
-    const messages = await response.json();
+async function loadMessages() {
 
     const chat = document.getElementById("chatMessages");
+    if (!chat) return;
+
+    const response = await fetch("/chat");
+    const messages = await response.json();
 
     chat.innerHTML = "";
 
     messages.forEach(msg => {
-
         const div = document.createElement("div");
-
         div.className = "message";
 
-        // div.textContent = msg.message;
-        // div.innerHTML = `
-        //     <div>Room : ${msg.roomId}</div>
-        //     <div>Team : ${msg.teamId}</div>
-        //     <div>Player : ${msg.playerName}</div>
-        //     <hr>
-        //     <div>${msg.message}</div>
-        // `;
         div.innerHTML = `
-            <div class="player-name">
-                ${msg.playerName}
-            </div>
-
-            <div class="message-text">
-                ${msg.message}
-            </div>
+            <div class="player-name">${msg.playerName}</div>
+            <div class="message-text">${msg.message}</div>
         `;
 
         chat.appendChild(div);
@@ -179,25 +155,22 @@ async function loadMessages(){
     chat.scrollTop = chat.scrollHeight;
 }
 
-function checkInput(){
-
+function checkInput() {
     const input = document.getElementById("message");
-
     const button = document.getElementById("sendButton");
+
+    if (!input || !button) return;
 
     button.disabled = input.value.trim() === "";
 }
 
-function handleEnter(event){
-
-    if(event.key === "Enter"){
-
+function handleEnter(event) {
+    if (event.key === "Enter") {
         event.preventDefault();
-
         sendMessage();
     }
 }
 
-setInterval(loadMessages,1000);
-
-loadMessages();
+setInterval(() => {
+    loadMessages();
+}, 1000);
