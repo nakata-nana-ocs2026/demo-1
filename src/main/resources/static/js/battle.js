@@ -89,6 +89,8 @@ function nextGame() {
     location.reload();
 }
 
+// ---------------chat---------------------
+
 function loadChat() {
     fetch('chat.html')
         .then(response => response.text())
@@ -98,3 +100,106 @@ function loadChat() {
 }
 
 loadChat();
+
+const playerName =
+    sessionStorage.getItem("playerName");
+
+const playerId =
+    sessionStorage.getItem("playerId");
+
+async function sendMessage() {
+
+    
+    const input = document.getElementById("message");
+
+
+    if(input.value.trim() === ""){
+        return;
+    }
+
+    await fetch("/chat", {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            message:input.value,
+            roomId:document.getElementById("roomId").value,
+            teamId:document.getElementById("teamId").value,
+            playerId: playerId,
+            playerName: playerName
+        })
+    });
+
+    input.value = "";
+
+    checkInput();
+
+    loadMessages();
+}
+
+async function loadMessages(){
+
+    const response = await fetch("/chat");
+
+    const messages = await response.json();
+
+    const chat = document.getElementById("chatMessages");
+
+    chat.innerHTML = "";
+
+    messages.forEach(msg => {
+
+        const div = document.createElement("div");
+
+        div.className = "message";
+
+        // div.textContent = msg.message;
+        // div.innerHTML = `
+        //     <div>Room : ${msg.roomId}</div>
+        //     <div>Team : ${msg.teamId}</div>
+        //     <div>Player : ${msg.playerName}</div>
+        //     <hr>
+        //     <div>${msg.message}</div>
+        // `;
+        div.innerHTML = `
+            <div class="player-name">
+                ${msg.playerName}
+            </div>
+
+            <div class="message-text">
+                ${msg.message}
+            </div>
+        `;
+
+        chat.appendChild(div);
+    });
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function checkInput(){
+
+    const input = document.getElementById("message");
+
+    const button = document.getElementById("sendButton");
+
+    button.disabled = input.value.trim() === "";
+}
+
+function handleEnter(event){
+
+    if(event.key === "Enter"){
+
+        event.preventDefault();
+
+        sendMessage();
+    }
+}
+
+setInterval(loadMessages,1000);
+
+loadMessages();
