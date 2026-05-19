@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/model/WeatherData.java
 package com.example.demo.model;
 
 public class WeatherData {
