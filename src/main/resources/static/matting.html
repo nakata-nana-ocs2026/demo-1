@@ -1,77 +1,9 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Room Team WebSocket</title>
-</head>
-<body>
-
-<h2>ルーム参加</h2>
-
-
-<input id="roomName" placeholder="ルーム名を入力してください">
-
-<input id="teamName" placeholder="チーム名を入力してください">
-
-<input id="username" placeholder="プレイヤー名を入力してください">
-
-<button onclick="joinRoom()">参加</button>
-
-<pre id="result"></pre>
-
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
-
-<script>
-
-const socket = new SockJS('/ws');
-const stompClient = Stomp.over(socket);
-
-stompClient.connect({}, function () {
-
-    stompClient.subscribe('/topic/rooms', function (message) {
-        document.getElementById('result').innerText = message.body;
-    });
-
-});
-// const socket = new SockJS('/ws');
-// const stompClient = Stomp.over(socket);
-
-
-function joinRoom() {
-
-    const data = {
-        roomId: 1234,
-        roomname: document.getElementById('roomName').value,
-        teamId: 'red',
-        teamName: document.getElementById('teamName').value,
-        playerId: 123,
-        username: document.getElementById('username').value
-    };
-
-    console.log("送信:", data);
-    
-    stompClient.send('/app/join', {}, JSON.stringify(data));
-
-    window.location.href = "battle.html";
-}
-
-</script>
-
-</body>
-</html> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>Room Team WebSocket</title>
     <link rel="stylesheet" href="/css/matting.css">
-
-
 </head>
 
 <body>
@@ -103,54 +35,7 @@ function joinRoom() {
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
-
-<script>
-
-const socket = new SockJS('/ws');
-const stompClient = Stomp.over(socket);
-
-stompClient.connect({}, function () {
-
-    console.log("WebSocket Connected");
-
-    stompClient.subscribe('/topic/rooms', function (message) {
-
-        console.log("受信:", message.body);
-
-        document.getElementById('result').innerText =
-            message.body;
-    });
-
-});
-
-function joinRoom() {
-
-    const data = {
-
-        roomName:
-            document.getElementById('roomName').value,
-
-        teamName:
-            document.getElementById('teamName').value,
-
-        playerName:
-            document.getElementById('playerName').value
-    };
-
-    console.log("送信:", data);
-
-    stompClient.send(
-        '/app/join',
-        {},
-        JSON.stringify(data)
-    );
-
-    setTimeout(() => {
-        window.location.href = "battle.html";
-    }, 300);
-}
-
-</script>
+<script src="/js/matting.js"></script>
 
 </body>
 </html>
