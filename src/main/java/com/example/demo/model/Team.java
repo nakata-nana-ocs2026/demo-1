@@ -15,17 +15,9 @@ public class Team {
         this.teamName = teamName;
     }
 
-    public String getteamId() {
+    public String getTeamId() {
         return teamId;
     }
-
-    // public String getTeamId() {
-    //     return teamId;
-    // }
-
-    // public void setTeamId(String teamId) {
-    //     this.teamId = teamId;
-    // }
 
     public String getTeamName() {
         return teamName;
@@ -33,5 +25,9 @@ public class Team {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
     }
 }

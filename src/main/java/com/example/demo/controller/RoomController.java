@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.JoinRequest;
-import com.example.demo.model.Player;
 import com.example.demo.model.Room;
-import com.example.demo.model.Team;
 import com.example.demo.service.RoomService;
 
+import tools.jackson.databind.ObjectMapper;
+
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -21,14 +22,31 @@ public class RoomController {
 
     @MessageMapping("/join")
     @SendTo("/topic/rooms")
-    public Room joinRoom(JoinRequest request) {
-        System.out.println("参加リクエスト: " + request.getUsername());
-         return roomService.joinTeam(
+    public Room joinRoom(String jsonString) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            System.out.println("受信したJSON: " + jsonString);
+            JoinRequest request = objectMapper.readValue(jsonString, JoinRequest.class);
+
+            System.out.println("参加リクエスト: " + request.getPlayerName());
+
+            return roomService.joinTeam(
                 request.getRoomName(),
                 request.getTeamName(),
-                request.getUsername()
-          );
+                request.getPlayerName()
+            );
+        } catch (Exception e) {
 
-        // return roomService.getRoom(request.getRoomId());
+            System.out.println("Error occurred while processing join request:");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @MessageExceptionHandler
+    public void handleException(Throwable e) {
+        System.out.println("Error handling WebSocket message: " + e.getMessage());
     }
 }
