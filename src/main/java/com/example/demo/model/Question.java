@@ -1,4 +1,3 @@
-
 package com.example.demo.model;
 
 public class Question {
@@ -11,7 +10,8 @@ public class Question {
     private double rainfall;
     private double sunshine;
 
-    private String hint;
+    private String hint1;
+    private String hint2;
 
     public Question(
             String region,
@@ -20,7 +20,8 @@ public class Question {
             double temperature,
             double rainfall,
             double sunshine,
-            String hint
+            String hint1,
+            String hint2
     ) {
         this.region = region;
         this.month = month;
@@ -28,7 +29,8 @@ public class Question {
         this.temperature = temperature;
         this.rainfall = rainfall;
         this.sunshine = sunshine;
-        this.hint = hint;
+        this.hint1 = hint1;
+        this.hint2 = hint2;
     }
 
     public String getRegion() {
@@ -55,7 +57,11 @@ public class Question {
         return sunshine;
     }
 
-    public String getHint() {
-        return hint;
+    public String getHint1() {
+        return hint1;
+    }
+
+    public String getHint2() {
+        return hint2;
     }
 }
