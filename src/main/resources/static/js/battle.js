@@ -1,12 +1,15 @@
 let count = 0;
 let history = [];
 
+
 // =====================================================
 // ゲーム開始
 // =====================================================
 
 fetch('/match/start')
+
     .then(res => res.json())
+
     .then(data => {
 
         console.log(data);
@@ -18,6 +21,7 @@ fetch('/match/start')
             <div class="weather-item">
                 <div class="icon">🌡</div>
                 <div class="label">平均気温</div>
+
                 <div class="value">
                     ${data.temperature}℃
                 </div>
@@ -26,6 +30,7 @@ fetch('/match/start')
             <div class="weather-item">
                 <div class="icon">☔</div>
                 <div class="label">降水量</div>
+
                 <div class="value">
                     ${data.rainfall}mm
                 </div>
@@ -34,6 +39,7 @@ fetch('/match/start')
             <div class="weather-item">
                 <div class="icon">☀</div>
                 <div class="label">日照時間</div>
+
                 <div class="value">
                     ${data.sunshine}h
                 </div>
@@ -91,6 +97,7 @@ function submitAnswer() {
         body: JSON.stringify(answer)
 
     })
+
     .then(res => res.json())
 
     .then(data => {
@@ -119,8 +126,6 @@ function submitAnswer() {
                 `✅ ${data.hit} Hit`;
         }
     });
-
-    window.location.href='chat.html'
 }
 
 
@@ -154,23 +159,6 @@ function nextGame() {
 // =====================================================
 // chat
 // =====================================================
-
-function loadChat() {
-
-    fetch('chat.html')
-
-        .then(response => response.text())
-
-        .then(data => {
-
-            document.getElementById('chat-container')
-                .innerHTML = data;
-
-            loadMessages();
-        });
-}
-
-loadChat();
 
 const playerName =
     sessionStorage.getItem("playerName")
@@ -317,5 +305,11 @@ function handleEnter(event) {
 // =====================================================
 
 setInterval(() => {
+
     loadMessages();
+
 }, 1000);
+
+
+// 初回読み込み
+loadMessages();
