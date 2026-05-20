@@ -12,8 +12,6 @@ public class ChatMessage {
 
     private String playerName;
 
-    
-
     public ChatMessage() {
     }
 

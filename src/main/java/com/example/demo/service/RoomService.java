@@ -27,7 +27,7 @@ public class RoomService {
     public Room joinTeam(
         String roomName,
         String teamName,
-        String username) {
+        String playername) {
 
     String roomId = UUID.randomUUID().toString();
     String teamId = UUID.randomUUID().toString();
@@ -37,7 +37,7 @@ public class RoomService {
 
     Team team = new Team(teamId, teamName);
 
-    Player player = new Player(playerId, username);
+    Player player = new Player(playerId, playername);
 
     team.addPlayer(player);
 
