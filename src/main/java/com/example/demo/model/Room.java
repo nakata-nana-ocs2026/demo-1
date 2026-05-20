@@ -1,15 +1,13 @@
 package com.example.demo.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Room {
 
     private String roomId;
     private String roomName;
 
-    private Map<String, List<String>> teams = new HashMap<>();
+    private List<Team> teams = new java.util.ArrayList<>();
 
     public Room(String roomId, String roomName) {
         this.roomId = roomId;
@@ -24,34 +22,11 @@ public class Room {
         return this.roomName;
     }
 
-    public Map<String, List<String>> getTeams() {
+    public List<Team> getTeams() {
         return teams;
     }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
 }
-
-
-// public class Room {
-
-//     private String roomId;
-
-//     private String roomName;
-
-//     private Map<String, Team> teams = new HashMap<>();
-
-//     public Room(String roomId, String roomName) {
-//         this.roomId = roomId;
-//         this.roomName = roomName;
-//     }
-
-//     public String getRoomId() {
-//         return roomId;
-//     }
-
-//     public String getRoomName() {
-//         return roomName;
-//     }
-
-//     public Map<String, Team> getTeams() {
-//         return teams;
-//     }
-// }
