@@ -1,87 +1,150 @@
 let count = 0;
 let history = [];
 
-// ---------------- ゲーム開始 ----------------
+// =====================================================
+// ゲーム開始
+// =====================================================
+
 fetch('/match/start')
     .then(res => res.json())
     .then(data => {
+
         console.log(data);
 
         document.getElementById('weather').innerHTML = `
+
         <div class="weather-grid">
 
             <div class="weather-item">
                 <div class="icon">🌡</div>
                 <div class="label">平均気温</div>
-                <div class="value">${data.temperature}℃</div>
+                <div class="value">
+                    ${data.temperature}℃
+                </div>
             </div>
 
             <div class="weather-item">
                 <div class="icon">☔</div>
                 <div class="label">降水量</div>
-                <div class="value">${data.rainfall}mm</div>
+                <div class="value">
+                    ${data.rainfall}mm
+                </div>
             </div>
 
             <div class="weather-item">
                 <div class="icon">☀</div>
                 <div class="label">日照時間</div>
-                <div class="value">${data.sunshine}h</div>
+                <div class="value">
+                    ${data.sunshine}h
+                </div>
             </div>
 
         </div>
 
         <div class="hint-box">
-            💡 ヒント: ${data.hint}
+            🗾 ヒント1:
+            ${data.hint1}
         </div>
+
+        <div class="hint-box">
+            🌦 ヒント2:
+            ${data.hint2}
+        </div>
+
         `;
     });
+
+
+// =====================================================
+// 回答
+// =====================================================
 
 function submitAnswer() {
 
     count++;
-    document.getElementById('count').innerHTML = `挑戦回数: ${count}`;
+
+    document.getElementById('count').innerHTML =
+        `挑戦回数: ${count}`;
 
     const answer = {
-        region: document.getElementById('region').value,
-        month: parseInt(document.getElementById('month').value),
-        weatherType: document.getElementById('type').value
+
+        region:
+            document.getElementById('region').value,
+
+        month:
+            parseInt(
+                document.getElementById('month').value
+            ),
+
+        weatherType:
+            document.getElementById('type').value
     };
 
     fetch('/match/check', {
+
         method: 'POST',
+
         headers: {
             'Content-Type': 'application/json'
         },
+
         body: JSON.stringify(answer)
+
     })
     .then(res => res.json())
+
     .then(data => {
 
         history.unshift(
-            `${count}回目: ${answer.region} / ${answer.month}月 / ${answer.weatherType} → ${data.hit} Hit`
+            `${count}回目 :
+            ${answer.region} /
+            ${answer.month}月 /
+            ${answer.weatherType}
+            → ${data.hit} Hit`
         );
 
         renderHistory();
 
         if (data.clear) {
+
             document.getElementById('result').innerHTML =
                 `🎉 CLEAR!! (${count}回)`;
 
-            document.getElementById('nextButton').style.display = 'block';
+            document.getElementById('nextButton').style.display =
+                'block';
+
         } else {
+
             document.getElementById('result').innerHTML =
                 `✅ ${data.hit} Hit`;
         }
     });
+
+    window.location.href='chat.html'
 }
-    
+
+
+// =====================================================
+// 履歴表示
+// =====================================================
 
 function renderHistory() {
+
     document.getElementById('history').innerHTML =
+
         history.map(item =>
-            `<div class="history-item">${item}</div>`
+
+            `<div class="history-item">
+                ${item}
+            </div>`
+
         ).join('');
 }
+
+
+// =====================================================
+// 次の問題
+// =====================================================
 
 function nextGame() {
     location.reload();
