@@ -10,11 +10,7 @@ stompClient.connect({}, function () {
         console.log("受信:", message.body);
 
         const room = JSON.parse(message.body);
-
-        sessionStorage.setItem('roomName',document.getElementById('roomName').value);
-        sessionStorage.setItem('teamName',document.getElementById('teamName').value);
-        sessionStorage.setItem('playerName',document.getElementById('playerName').value);
-              
+           
         sessionStorage.setItem('room',room);
 
         document.getElementById('result').innerText =
@@ -36,6 +32,10 @@ function joinRoom() {
         playerName:
             document.getElementById('playerName').value
     };
+
+    sessionStorage.setItem('roomName',document.getElementById('roomName').value);
+    sessionStorage.setItem('teamName',document.getElementById('teamName').value);
+    sessionStorage.setItem('playerName',document.getElementById('playerName').value);
 
     console.log("送信:", data);
 
