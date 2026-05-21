@@ -16,7 +16,6 @@ public class ChatController {
 
     private final List<ChatMessage> messages = new ArrayList<>();
 
-    // メッセージ送信
     @PostMapping
     public void sendMessage(@RequestBody String message) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -28,9 +27,6 @@ public class ChatController {
         }
     }
 
-
-
-    // メッセージ取得
     @GetMapping
     public List<ChatMessage> getMessages() {
         return messages;

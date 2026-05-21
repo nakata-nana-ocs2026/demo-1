@@ -152,6 +152,7 @@ function renderHistory() {
 // =====================================================
 
 function nextGame() {
+
     location.reload();
 }
 
