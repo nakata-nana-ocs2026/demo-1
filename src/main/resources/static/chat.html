@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="/chat.css">
-<title>チャット</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="/css/chat.css">
+
+    <title>チャット</title>
+</head>
 
 <body>
 
@@ -13,8 +17,8 @@
         チャット
     </div>
 
-    <div id="chatMessages" class="chat-messages">
-
+    <div id="chatMessages" 
+        class="chat-messages">
     </div>
 
     <div class="chat-input">
@@ -28,8 +32,9 @@
         >
 
         <button
+            type="button"
             id="sendButton"
-            onclick="sendMessage()"
+            onclick="sendMessage(event)"
             disabled
         >
             送信
@@ -39,9 +44,25 @@
 
 </div>
 
-<input type="hidden" id="roomId" value="1">
-<input type="hidden" id="teamId" value="1">
-<input type="hidden" id="playerId" value="1">
+<input
+    type="hidden"
+    id="roomId"
+    value="1"
+>
 
+<input
+    type="hidden"
+    id="teamId"
+    value="1"
+>
+
+<input
+    type="hidden"
+    id="playerId"
+    value="1"
+>
+
+<script src = '/js/chat.js'></script>
 </body>
+
 </html>

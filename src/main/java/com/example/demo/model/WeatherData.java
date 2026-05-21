@@ -5,18 +5,22 @@ public class WeatherData {
     private double temperature;
     private double rainfall;
     private double sunshine;
-    private String hint;
+
+    private String hint1;
+    private String hint2;
 
     public WeatherData(
             double temperature,
             double rainfall,
             double sunshine,
-            String hint
+            String hint1,
+            String hint2
     ) {
         this.temperature = temperature;
         this.rainfall = rainfall;
         this.sunshine = sunshine;
-        this.hint = hint;
+        this.hint1 = hint1;
+        this.hint2 = hint2;
     }
 
     public double getTemperature() {
@@ -31,7 +35,11 @@ public class WeatherData {
         return sunshine;
     }
 
-    public String getHint() {
-        return hint;
+    public String getHint1() {
+        return hint1;
+    }
+
+    public String getHint2() {
+        return hint2;
     }
 }

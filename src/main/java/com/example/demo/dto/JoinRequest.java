@@ -4,7 +4,7 @@ public class JoinRequest {
 
     private String roomName;
     private String teamName;
-    private String username;
+    private String playerName;
 
     public String getRoomName() {
         return roomName;
@@ -22,12 +22,12 @@ public class JoinRequest {
         this.teamName = teamName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPlayerName() {
+        return playerName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
     
 }

@@ -24,22 +24,10 @@ public class RoomService {
         return rooms.get(roomId);
     }
 
-    // public void joinTeam(String roomId, String roomName, Team team, Player user) {
-    //     // Room room = rooms.computeIfAbsent(roomId, Room::new);
-    //     Room room = rooms.computeIfAbsent(
-    //         roomId,
-    //         k -> new Room(roomId, roomName)
-    //     );
-
-    //     room.getTeams()
-    //             .computeIfAbsent(team.getTeamName(), k -> new ArrayList<>())
-    //             .add(user.getUsername());
-    // }
-
     public Room joinTeam(
         String roomName,
         String teamName,
-        String username) {
+        String playername) {
 
     String roomId = UUID.randomUUID().toString();
     String teamId = UUID.randomUUID().toString();
@@ -49,13 +37,11 @@ public class RoomService {
 
     Team team = new Team(teamId, teamName);
 
-    Player player = new Player(playerId, username);
+    Player player = new Player(playerId, playername);
 
-    team.getPlayers().add(player);
+    team.addPlayer(player);
 
-    room.getTeams().put(teamId, (List<String>) team);
-
-    rooms.put(roomId, room);
+    room.addTeam(team);
 
     return room;
 }

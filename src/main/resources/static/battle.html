@@ -1,87 +1,264 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>天気 Hit&Blow</title>
-    <link rel="stylesheet" href="/css/battle.css">
-    <link rel="stylesheet" href="/css/chat.css">
+
+    <title>
+        天気 Hit&Blow
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/chat.css"
+    >
+    
+    <link
+        rel="stylesheet"
+        href="/css/battle.css"
+    >
+
+    
+
 </head>
+
 <body>
 
 <div class="game-layout">
 
+    <!-- ===================================== -->
     <!-- メインゲーム -->
+    <!-- ===================================== -->
+
     <div class="container">
 
-        <h1>🌤 天気 Hit&Blow</h1>
+        <h1>
+            🌤 天気 Hit&Blow
+        </h1>
 
-        <div class="weather-box" id="weather">
+        <!-- 天気データ -->
+        <div
+            class="weather-box"
+            id="weather"
+        >
             読み込み中...
         </div>
 
+
         <!-- 地方 -->
         <div class="select-group">
-            <label for="region">地方</label>
+
+            <label for="region">
+                地方
+            </label>
+
             <select id="region">
-                <option value="北海道">北海道</option>
-                <option value="東北">東北</option>
-                <option value="関東">関東</option>
-                <option value="中部">中部</option>
-                <option value="関西">関西</option>
-                <option value="中国">中国</option>
-                <option value="四国">四国</option>
-                <option value="九州">九州</option>
+
+                <option value="北海道">
+                    北海道
+                </option>
+
+                <option value="東北">
+                    東北
+                </option>
+
+                <option value="関東">
+                    関東
+                </option>
+
+                <option value="中部">
+                    中部
+                </option>
+
+                <option value="関西">
+                    関西
+                </option>
+
+                <option value="中国">
+                    中国
+                </option>
+
+                <option value="四国">
+                    四国
+                </option>
+
+                <option value="九州">
+                    九州
+                </option>
+
             </select>
+
         </div>
+
 
         <!-- 月 -->
         <div class="select-group">
-            <label for="month">月</label>
+
+            <label for="month">
+                月
+            </label>
+
             <select id="month">
-                <option value="3">3月</option>
-                <option value="4">4月</option>
-                <option value="9">9月</option>
-                <option value="10">10月</option>
+
+                <option value="3">
+                    3月
+                </option>
+
+                <option value="4">
+                    4月
+                </option>
+
+                <option value="9">
+                    9月
+                </option>
+
+                <option value="10">
+                    10月
+                </option>
+
             </select>
+
         </div>
+
 
         <!-- 天気タイプ -->
         <div class="select-group">
-            <label for="type">天気タイプ</label>
+
+            <label for="type">
+                天気タイプ
+            </label>
+
             <select id="type">
-                <option value="雪解け型">雪解け型</option>
-                <option value="春型">春型</option>
-                <option value="台風型">台風型</option>
-                <option value="秋雨型">秋雨型</option>
+
+                <option value="寒冷型">
+                    寒冷型
+                </option>
+
+                <option value="快晴型">
+                    快晴型
+                </option>
+
+                <option value="豪雨型">
+                    豪雨型
+                </option>
+
+                <option value="ぐずつき型">
+                    ぐずつき型
+                </option>
+
             </select>
+
         </div>
 
-        <button onclick="submitAnswer()">
+
+        <!-- 回答ボタン -->
+        <button
+            type="button"
+            onclick="submitAnswer()"
+        >
             回答する
         </button>
 
     </div>
 
+
+    <!-- ===================================== -->
     <!-- サイドパネル -->
+    <!-- ===================================== -->
+
     <div class="side-panel">
 
-        <div id="result">結果待ち</div>
+        <div id="result">
+            結果待ち
+        </div>
 
-        <div id="count">挑戦回数: 0</div>
+        <div id="count">
+            挑戦回数: 0
+        </div>
 
         <div id="history"></div>
 
-        <button onclick="nextGame()" id="nextButton">
+        <button
+            type="button"
+            onclick="nextGame()"
+            id="nextButton"
+        >
             次の問題へ
         </button>
+
     </div>
 
+
+    <!-- ===================================== -->
     <!-- チャット -->
-    <div id="chat-container"></div>
+    <!-- ===================================== -->
+
+    <div id="chat-container">
+
+        <div class="chat-container">
+
+            <!-- ヘッダー -->
+            <div class="chat-header">
+                チャット
+            </div>
+
+            <!-- メッセージ -->
+            <div
+                id="chatMessages"
+                class="chat-messages"
+            ></div>
+
+            <!-- 入力 -->
+            <div class="chat-input">
+
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="メッセージを入力"
+                    oninput="checkInput()"
+                    onkeydown="handleEnter(event)"
+                >
+
+                <button
+                    type="button"
+                    id="sendButton"
+                    onclick="sendMessage()"
+                    disabled
+                >
+                    送信
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- hidden -->
+        <input
+            type="hidden"
+            id="roomId"
+            value="1"
+        >
+
+        <input
+            type="hidden"
+            id="teamId"
+            value="1"
+        >
+
+        <input
+            type="hidden"
+            id="playerId"
+            value="1"
+        >
+
+    </div>
 
 </div>
 
 <script src="/js/battle.js"></script>
+<script src="/js/chat.js"></script>
 
 </body>
+
 </html>

@@ -10,47 +10,90 @@ public class GameService {
 
     private Answer correctAnswer;
 
-    public GameService(WeatherApiService weatherApiService) {
-        this.weatherApiService = weatherApiService;
+    public GameService(
+            WeatherApiService weatherApiService
+    ) {
+        this.weatherApiService =
+                weatherApiService;
     }
+
+    // =====================================================
+    // ゲーム開始
+    // =====================================================
 
     public WeatherData startGame() {
 
-        Question question = weatherApiService.getRandomQuestion();
+        Question question =
+                weatherApiService.getRandomQuestion();
 
+        // 正解保存
         correctAnswer = new Answer();
 
-        correctAnswer.setRegion(question.getRegion());
-        correctAnswer.setMonth(question.getMonth());
-        correctAnswer.setWeatherType(question.getWeatherType());
+        correctAnswer.setRegion(
+                question.getRegion()
+        );
 
+        correctAnswer.setMonth(
+                question.getMonth()
+        );
+
+        correctAnswer.setWeatherType(
+                question.getWeatherType()
+        );
+
+        // 画面表示用データ
         return new WeatherData(
+
                 question.getTemperature(),
+
                 question.getRainfall(),
+
                 question.getSunshine(),
-                question.getHint()
+
+                question.getHint1(),
+
+                question.getHint2()
         );
     }
 
-    public JudgeResult checkAnswer(Answer userAnswer) {
+    // =====================================================
+    // 回答判定
+    // =====================================================
+
+    public JudgeResult checkAnswer(
+            Answer userAnswer
+    ) {
 
         int hit = 0;
 
-        if (userAnswer.getRegion()
-                .equals(correctAnswer.getRegion())) {
+        // 地方
+        if (
+                userAnswer.getRegion()
+                        .equals(correctAnswer.getRegion())
+        ) {
             hit++;
         }
 
-        if (userAnswer.getMonth()
-                == correctAnswer.getMonth()) {
+        // 月
+        if (
+                userAnswer.getMonth()
+                        == correctAnswer.getMonth()
+        ) {
             hit++;
         }
 
-        if (userAnswer.getWeatherType()
-                .equals(correctAnswer.getWeatherType())) {
+        // 天気タイプ
+        if (
+                userAnswer.getWeatherType()
+                        .equals(correctAnswer.getWeatherType())
+        ) {
             hit++;
         }
 
-        return new JudgeResult(hit, hit == 3);
+        // 3Hitでクリア
+        return new JudgeResult(
+                hit,
+                hit == 3
+        );
     }
 }
