@@ -29,4 +29,5 @@ public class JoinRequest {
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
+    
 }

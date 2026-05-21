@@ -1,18 +1,11 @@
 let count = 0;
 let history = [];
 
-
-// =====================================================
-// ゲーム開始
-// =====================================================
-
-fetch('/match/start')
-
+// ---------------- ゲーム開始 ----------------
+fetch('/game/start')
     .then(res => res.json())
 
     .then(data => {
-
-        console.log(data);
 
         document.getElementById('weather').innerHTML = `
 
@@ -68,7 +61,6 @@ fetch('/match/start')
 function submitAnswer() {
 
     count++;
-
     document.getElementById('count').innerHTML =
         `挑戦回数: ${count}`;
 
@@ -86,8 +78,7 @@ function submitAnswer() {
             document.getElementById('type').value
     };
 
-    fetch('/match/check', {
-
+    fetch('/game/answer', {
         method: 'POST',
 
         headers: {
@@ -103,11 +94,7 @@ function submitAnswer() {
     .then(data => {
 
         history.unshift(
-            `${count}回目 :
-            ${answer.region} /
-            ${answer.month}月 /
-            ${answer.weatherType}
-            → ${data.hit} Hit`
+            `${count}回目: ${answer.region} / ${answer.month}月 / ${answer.weatherType} → ${data.hit} Hit`
         );
 
         renderHistory();
@@ -117,17 +104,17 @@ function submitAnswer() {
             document.getElementById('result').innerHTML =
                 `🎉 CLEAR!! (${count}回)`;
 
-            document.getElementById('nextButton').style.display =
-                'block';
-
+            document.getElementById('nextButton').style.display = 'block';
         } else {
 
             document.getElementById('result').innerHTML =
                 `✅ ${data.hit} Hit`;
         }
     });
-}
 
+    
+}
+    
 
 // =====================================================
 // 履歴表示
@@ -157,56 +144,39 @@ function nextGame() {
 }
 
 
-// =====================================================
-// chat
-// =====================================================
+// ---------------- chat ----------------
 
-const playerName =
-    sessionStorage.getItem("playerName")
-    || "guest";
+function loadChat() {
+    fetch('chat.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('chat-container').innerHTML = data;
+            loadMessages(); // chat読み込み後に実行
+        });
+}
 
-const playerId =
-    sessionStorage.getItem("playerId")
-    || "guest";
+loadChat();
 
-
-// =====================================================
-// メッセージ送信
-// =====================================================
+const playerName = sessionStorage.getItem("playerName") || "guest";
+const playerId = sessionStorage.getItem("playerId") || "guest";
 
 async function sendMessage() {
 
-    const input =
-        document.getElementById("message");
+    const input = document.getElementById("message");
+    if (!input || input.value.trim() === "") return;
 
-    if (!input || input.value.trim() === "") {
-        return;
-    }
-
-    const roomId =
-        document.getElementById("roomId")?.value
-        || "1";
-
-    const teamId =
-        document.getElementById("teamId")?.value
-        || "1";
+    const roomId = document.getElementById("roomId")?.value || "1";
+    const teamId = document.getElementById("teamId")?.value || "1";
 
     await fetch("/chat", {
-
         method: "POST",
-
         headers: {
             "Content-Type": "application/json"
         },
-
         body: JSON.stringify({
-
             message: input.value,
-
             roomId: roomId,
-
             teamId: teamId,
-
             playerId: playerId,
 
             playerName: playerName
@@ -227,36 +197,29 @@ async function sendMessage() {
 
 async function loadMessages() {
 
-    const chat =
-        document.getElementById("chatMessages");
-
+    const chat = document.getElementById("chatMessages");
     if (!chat) return;
 
-    const response =
-        await fetch("/chat");
-
-    const messages =
-        await response.json();
+    const response = await fetch("/chat");
+    const messages = await response.json();
 
     chat.innerHTML = "";
 
     messages.forEach(msg => {
-
-        const div =
-            document.createElement("div");
-
+        const div = document.createElement("div");
         div.className = "message";
 
+        // div.textContent = msg.message;
+        // div.innerHTML = `
+        //     <div>Room : ${msg.roomId}</div>
+        //     <div>Team : ${msg.teamId}</div>
+        //     <div>Player : ${msg.playerName}</div>
+        //     <hr>
+        //     <div>${msg.message}</div>
+        // `;
         div.innerHTML = `
-
-            <div class="player-name">
-                ${msg.playerName}
-            </div>
-
-            <div class="message-text">
-                ${msg.message}
-            </div>
-
+            <div class="player-name">${msg.playerName}</div>
+            <div class="message-text">${msg.message}</div>
         `;
 
         chat.appendChild(div);
@@ -272,12 +235,8 @@ async function loadMessages() {
 // =====================================================
 
 function checkInput() {
-
-    const input =
-        document.getElementById("message");
-
-    const button =
-        document.getElementById("sendButton");
+    const input = document.getElementById("message");
+    const button = document.getElementById("sendButton");
 
     if (!input || !button) return;
 
@@ -291,9 +250,7 @@ function checkInput() {
 // =====================================================
 
 function handleEnter(event) {
-
     if (event.key === "Enter") {
-
         event.preventDefault();
 
         sendMessage();
@@ -306,11 +263,5 @@ function handleEnter(event) {
 // =====================================================
 
 setInterval(() => {
-
     loadMessages();
-
 }, 1000);
-
-
-// 初回読み込み
-loadMessages();

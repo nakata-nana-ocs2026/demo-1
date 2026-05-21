@@ -42,8 +42,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+<script src="/js/matting.js"></script>
 
-<script>
+<!-- <script>
 
 const socket = new SockJS('/ws');
 const stompClient = Stomp.over(socket);
@@ -84,12 +85,15 @@ function joinRoom() {
         JSON.stringify(data)
     );
 
+    sessionStorage.setItem("playerName", 'tt');
+    sessionStorage.setItem("playerId", data.playerId);
+
     setTimeout(() => {
         movePage("/battle.html");
     }, 300);
 }
 
-</script>
+</script> -->
 
 <script src="/js/common.js"></script>
 <script src="/js/matting.js"></script>

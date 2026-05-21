@@ -1,19 +1,10 @@
-function loadChat() {
-    fetch('chat.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('chat-container').innerHTML = data;
-        });
-}
-loadChat();
-
-const playerName = sessionStorage.getItem("playerName") || "guest";
-const playerId = sessionStorage.getItem("playerId") || "guest";
+// const playerName = sessionStorage.getItem("playerName") || "guest";
+// const playerId = sessionStorage.getItem("playerId") || "guest";
 
 async function sendMessage() {
 
     const input = document.getElementById("message");
-    // if (!input || input.value.trim() === "") return;
+    if (!input || input.value.trim() === "") return;
 
     const roomId = document.getElementById("roomId").value || "1";
     const teamId = document.getElementById("teamId").value || "1";
@@ -40,12 +31,12 @@ async function sendMessage() {
 async function loadMessages() {
 
     const chat = document.getElementById("chatMessages");
-    // if (!chat) return;
+    if (!chat) return;
 
     const response = await fetch("/chat", { method: "GET" });
     const messages = await response.json();
 
-    // chat.innerHTML = "";
+    chat.innerHTML = "";
 
     messages.forEach(msg => {
         console.log(msg.playerName)
@@ -54,8 +45,8 @@ async function loadMessages() {
         div.className = "message";
 
         div.innerHTML = `
-            <div class="player-name">${msg.playerName||'jgahu'}</div>
-            <div class="message-text">${msg.message||'abc'}</div>
+            <div class="player-name">${sessionStorage.getItem("playerName") || "guest"}</div>
+            <div class="message-text">${msg.message || 'abc'}</div>
         `;
 
         chat.appendChild(div);
