@@ -2,7 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/login.css">
+
 <title>ログイン</title>
 
 <style>
@@ -63,7 +66,7 @@ button{
 
 <body>
 
-<div class="login-box">
+<div class="login-box fade-page">
 
     <h2>プレイヤー登録</h2>
 
@@ -73,7 +76,10 @@ button{
         placeholder="プレイヤー名"
     >
 
-    <button onclick="startChat()">
+    <button
+        type="button"
+        onclick="startChat()"
+    >
         開始
     </button>
 
@@ -101,10 +107,12 @@ function startChat(){
     sessionStorage.setItem("playerId", playerId);
 
     // chatへ移動
-    window.location.href = "/chat.html";
+    movePage("/chat.html");
 }
 
 </script>
+
+<script src="/js/common.js"></script>
 
 </body>
 </html>

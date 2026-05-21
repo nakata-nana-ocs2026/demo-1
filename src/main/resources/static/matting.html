@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Room Team WebSocket</title>
+
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/matting.css">
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="container fade-page">
 
     <h2>ルーム参加</h2>
 
@@ -27,9 +30,13 @@
         <input id="playerName" placeholder="プレイヤー名を入力してください">
     </div>
 
-    <button onclick="joinRoom()">参加</button>
+    <button
+        type="button"
+        onclick="joinRoom()"
+    >
+        参加
+    </button>
 
-    <pre id="result"></pre>
 
 </div>
 
@@ -78,11 +85,14 @@ function joinRoom() {
     );
 
     setTimeout(() => {
-        window.location.href = "battle.html";
+        movePage("/battle.html");
     }, 300);
 }
 
 </script>
+
+<script src="/js/common.js"></script>
+<script src="/js/matting.js"></script>
 
 </body>
 </html>

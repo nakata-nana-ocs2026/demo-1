@@ -14,7 +14,7 @@ stompClient.connect({}, function () {
         sessionStorage.setItem('roomName',document.getElementById('roomName').value);
         sessionStorage.setItem('teamName',document.getElementById('teamName').value);
         sessionStorage.setItem('playerName',document.getElementById('playerName').value);
-              
+        
         sessionStorage.setItem('room',room);
 
         document.getElementById('result').innerText =
