@@ -1,6 +1,3 @@
-// const playerName = sessionStorage.getItem("playerName") || "guest";
-// const playerId = sessionStorage.getItem("playerId") || "guest";
-
 async function sendMessage() {
 
     const input = document.getElementById("message");
@@ -18,8 +15,8 @@ async function sendMessage() {
             message: input.value,
             roomId: roomId,
             teamId: teamId,
-            playerId: playerId,
-            playerName: playerName
+            playerId: '123',
+            playerName: 'defaultName'
         })
     });
 

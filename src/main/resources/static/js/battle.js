@@ -146,122 +146,122 @@ function nextGame() {
 
 // ---------------- chat ----------------
 
-function loadChat() {
-    fetch('chat.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('chat-container').innerHTML = data;
-            loadMessages(); // chat読み込み後に実行
-        });
-}
+// function loadChat() {
+//     fetch('chat.html')
+//         .then(response => response.text())
+//         .then(data => {
+//             document.getElementById('chat-container').innerHTML = data;
+//             loadMessages(); // chat読み込み後に実行
+//         });
+// }
 
-loadChat();
+// loadChat();
 
-const playerName = sessionStorage.getItem("playerName") || "guest";
-const playerId = sessionStorage.getItem("playerId") || "guest";
+// const playerName = sessionStorage.getItem("playerName") || "guest";
+// const playerId = sessionStorage.getItem("playerId") || "guest";
 
-async function sendMessage() {
+// async function sendMessage() {
 
-    const input = document.getElementById("message");
-    if (!input || input.value.trim() === "") return;
+//     const input = document.getElementById("message");
+//     if (!input || input.value.trim() === "") return;
 
-    const roomId = document.getElementById("roomId")?.value || "1";
-    const teamId = document.getElementById("teamId")?.value || "1";
+//     const roomId = document.getElementById("roomId")?.value || "1";
+//     const teamId = document.getElementById("teamId")?.value || "1";
 
-    await fetch("/chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message: input.value,
-            roomId: roomId,
-            teamId: teamId,
-            playerId: playerId,
+//     await fetch("/chat", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify({
+//             message: input.value,
+//             roomId: roomId,
+//             teamId: teamId,
+//             playerId: playerId,
 
-            playerName: playerName
-        })
-    });
+//             playerName: playerName
+//         })
+//     });
 
-    input.value = "";
+//     input.value = "";
 
-    checkInput();
+//     checkInput();
 
-    loadMessages();
-}
-
-
-// =====================================================
-// メッセージ取得
-// =====================================================
-
-async function loadMessages() {
-
-    const chat = document.getElementById("chatMessages");
-    if (!chat) return;
-
-    const response = await fetch("/chat");
-    const messages = await response.json();
-
-    chat.innerHTML = "";
-
-    messages.forEach(msg => {
-        const div = document.createElement("div");
-        div.className = "message";
-
-        // div.textContent = msg.message;
-        // div.innerHTML = `
-        //     <div>Room : ${msg.roomId}</div>
-        //     <div>Team : ${msg.teamId}</div>
-        //     <div>Player : ${msg.playerName}</div>
-        //     <hr>
-        //     <div>${msg.message}</div>
-        // `;
-        div.innerHTML = `
-            <div class="player-name">${msg.playerName}</div>
-            <div class="message-text">${msg.message}</div>
-        `;
-
-        chat.appendChild(div);
-    });
-
-    chat.scrollTop =
-        chat.scrollHeight;
-}
+//     loadMessages();
+// }
 
 
-// =====================================================
-// 入力チェック
-// =====================================================
+// // =====================================================
+// // メッセージ取得
+// // =====================================================
 
-function checkInput() {
-    const input = document.getElementById("message");
-    const button = document.getElementById("sendButton");
+// async function loadMessages() {
 
-    if (!input || !button) return;
+//     const chat = document.getElementById("chatMessages");
+//     if (!chat) return;
 
-    button.disabled =
-        input.value.trim() === "";
-}
+//     const response = await fetch("/chat");
+//     const messages = await response.json();
+
+//     chat.innerHTML = "";
+
+//     messages.forEach(msg => {
+//         const div = document.createElement("div");
+//         div.className = "message";
+
+//         // div.textContent = msg.message;
+//         // div.innerHTML = `
+//         //     <div>Room : ${msg.roomId}</div>
+//         //     <div>Team : ${msg.teamId}</div>
+//         //     <div>Player : ${msg.playerName}</div>
+//         //     <hr>
+//         //     <div>${msg.message}</div>
+//         // `;
+//         div.innerHTML = `
+//             <div class="player-name">${msg.playerName}</div>
+//             <div class="message-text">${msg.message}</div>
+//         `;
+
+//         chat.appendChild(div);
+//     });
+
+//     chat.scrollTop =
+//         chat.scrollHeight;
+// }
 
 
-// =====================================================
-// Enter送信
-// =====================================================
+// // =====================================================
+// // 入力チェック
+// // =====================================================
 
-function handleEnter(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
+// function checkInput() {
+//     const input = document.getElementById("message");
+//     const button = document.getElementById("sendButton");
 
-        sendMessage();
-    }
-}
+//     if (!input || !button) return;
+
+//     button.disabled =
+//         input.value.trim() === "";
+// }
 
 
-// =====================================================
-// 自動更新
-// =====================================================
+// // =====================================================
+// // Enter送信
+// // =====================================================
 
-setInterval(() => {
-    loadMessages();
-}, 1000);
+// function handleEnter(event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+
+//         sendMessage();
+//     }
+// }
+
+
+// // =====================================================
+// // 自動更新
+// // =====================================================
+
+// setInterval(() => {
+//     loadMessages();
+// }, 1000);
