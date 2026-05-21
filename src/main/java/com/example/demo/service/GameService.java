@@ -6,17 +6,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService {
 
-    private final QuestionService questionService;
+    private final WeatherApiService weatherApiService;
 
     private Answer correctAnswer;
 
-    public GameService(QuestionService questionService) {
-        this.questionService = questionService;
+    public GameService(WeatherApiService weatherApiService) {
+        this.weatherApiService = weatherApiService;
     }
 
     public WeatherData startGame() {
 
-        Question question = questionService.getRandomQuestion();
+        Question question = weatherApiService.getRandomQuestion();
 
         correctAnswer = new Answer();
 
